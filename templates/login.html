@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Sign in | PFA{% endblock %}
+{% block auth_content %}
+<div class="login-page"><div class="login-brand"><div class="crest large">PFA</div><p class="eyebrow gold">PRESBYTERIAN FELLOWSHIP ACADEMY</p><h1>Learning today.<br><em>Leading tomorrow.</em></h1><p class="login-intro">A connected school community built on faith, knowledge and excellence.</p><div class="login-bottom">FAITH &nbsp; • &nbsp; KNOWLEDGE &nbsp; • &nbsp; EXCELLENCE</div></div>
+<div class="login-panel"><div class="login-card"><div class="crest">PFA</div><p class="eyebrow">WELCOME BACK</p><h2>Sign in to your portal</h2><p class="muted">Enter your school account details to continue.</p><form method="post"><label>Username</label><input name="username" required autocomplete="username" placeholder="Enter your username"><label>Password</label><input type="password" name="password" required autocomplete="current-password" placeholder="Enter your password"><button class="btn primary full">Sign in securely →</button></form><p class="small-note">Need access? Contact the school administrator.</p></div></div></div>
+{% endblock %}

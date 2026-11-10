@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Dashboard | PFA{% endblock %}{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="welcome"><div><span class="eyebrow gold">SCHOOL OVERVIEW</span><h1>Welcome, {{ current_user.full_name.split()[0] }}.</h1><p>Here is what is happening at Presbyterian Fellowship Academy.</p></div><div class="welcome-mark">PFA</div></div>
+<div class="stats">
+<div class="stat"><span class="stat-icon">♙</span><small>Total Students</small><strong>{{ students }}</strong><span class="stat-foot">Registered learners</span></div>
+<div class="stat"><span class="stat-icon">♧</span><small>Teachers</small><strong>{{ teachers }}</strong><span class="stat-foot">Teaching staff</span></div>
+<div class="stat"><span class="stat-icon">▤</span><small>Classes</small><strong>{{ classes }}</strong><span class="stat-foot">Active class groups</span></div>
+<div class="stat"><span class="stat-icon">₵</span><small>Payments Recorded</small><strong>GH₵ {{ "%.2f"|format(payments|float) }}</strong><span class="stat-foot">Total recorded payments</span></div>
+</div>
+<div class="panel"><div class="panel-head"><div><h3>Recently registered students</h3><p class="muted">The latest student records added to the system.</p></div>{% if current_user.role in ['admin','teacher'] %}<a class="btn outline" href="{{ url_for('students') }}">Manage students</a>{% endif %}</div>
+{% if recent_students %}<div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student name</th><th>Class</th><th>Guardian</th></tr></thead><tbody>{% for s in recent_students %}<tr><td>{{ s.admission_no }}</td><td><b>{{ s.full_name }}</b></td><td>{{ s.class_name or '—' }}</td><td>{{ s.guardian_name or '—' }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No students registered yet. Add your first student from the Students section.</div>{% endif %}</div>
+{% endblock %}

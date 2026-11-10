@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PFA School Management{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+{% if current_user.is_authenticated %}
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="crest">PFA</span><span><b>Presbyterian</b><small>Fellowship Academy</small></span></a>
+    <div class="nav-label">MAIN MENU</div>
+    <a href="{{ url_for('dashboard') }}">▦ &nbsp; Dashboard</a>
+    {% if current_user.role in ['admin','teacher'] %}<a href="{{ url_for('students') }}">♙ &nbsp; Students</a>{% endif %}
+    {% if current_user.role == 'admin' %}<a href="{{ url_for('teachers') }}">♧ &nbsp; Teachers</a>{% endif %}
+    {% if current_user.role in ['admin','teacher'] %}<a href="{{ url_for('classes') }}">▤ &nbsp; Classes</a><a href="{{ url_for('attendance') }}">✓ &nbsp; Attendance</a><a href="{{ url_for('results') }}">✎ &nbsp; Examinations & Results</a>{% endif %}
+    {% if current_user.role in ['admin','accountant'] %}<a href="{{ url_for('fees') }}">₵ &nbsp; Fees & Payments</a>{% endif %}
+    {% if current_user.role == 'admin' %}<a href="{{ url_for('users') }}">⚙ &nbsp; User Accounts</a>{% endif %}
+    <div class="sidebar-bottom"><div class="user-mini"><span class="avatar">{{ current_user.full_name[:1]|upper }}</span><span><b>{{ current_user.full_name }}</b><small>{{ current_user.role|title }}</small></span></div><a href="{{ url_for('logout') }}" class="logout">↪ &nbsp; Sign out</a></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">PRESBYTERIAN FELLOWSHIP ACADEMY</span><h2>{% block heading %}School Portal{% endblock %}</h2></div><div class="top-right"><span class="online-dot"></span> Academic Portal <span class="avatar small">{{ current_user.full_name[:1]|upper }}</span></div></header>
+    <section class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+      {% block content %}{% endblock %}
+      <footer>© {{ 2026 }} Presbyterian Fellowship Academy <span>Faith • Knowledge • Excellence</span></footer>
+    </section>
+  </main>
+</div>
+{% else %}
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert {{ category }} login-alert">{{ message }}</div>{% endfor %}{% endwith %}
+{% block auth_content %}{% endblock %}
+{% endif %}
+</body></html>
